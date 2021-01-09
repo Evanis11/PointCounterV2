@@ -1,0 +1,5 @@
+#TODO:
+
+# 1. Add in combo command for points. Format: "/PC Points Combo/Tier3/Combination Create <Magic name> <t2 magic 1> <t2 magic 2>" "/PC Points Combo/Tier3/Combination Join <Name>"
+# This will create a new "combination" tree in the config
+

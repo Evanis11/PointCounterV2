@@ -1,0 +1,77 @@
+
+#Point items below
+Version: 2
+pointItem:
+  magic:
+    type: Magma_Cream
+    name: "&dMagic Point"
+    lore:
+      - "&9Worth 1 magic point"
+  physical:
+    type: ghast_tear
+    name: "&bStat Point"
+    lore:
+      - "&9Worth 1 stat point"
+  general:
+    type: Emerald
+    name: "&6General Point"
+    lore:
+      - "&9Worth either one stat"
+      - "&9or one magic point"
+
+systemv2:
+  maxUnlock: 4
+  unlockedMagic: 0
+  points:
+    magic:
+      elemental:
+        base: 0
+        fire:
+          points: 0
+          unlocked: false
+          aversion: false
+        water:
+          points: 0
+          unlocked: false
+          aversion: false
+        wind:
+          points: 0
+          unlocked: false
+          aversion: false
+        earth:
+          points: 0
+          unlocked: false
+          aversion: false
+      cosmic:
+        base: 0
+        astral:
+          points: 0
+          unlocked: false
+          aversion: false
+        shadow:
+          points: 0
+          unlocked: false
+          aversion: false
+      nature:
+        base: 0
+        ecomancy:
+          points: 0
+          unlocked: false
+          aversion: false
+        life:
+          points: 0
+          unlocked: false
+          aversion: false
+        death:
+          points: 0
+          unlocked: false
+          aversion: false
+    physical:
+      health: 100
+      strength: 0
+      agility: 0
+      craftsmanship: 0
+    unspent:
+      physical: 40
+      magic: 20
+      general: 0
