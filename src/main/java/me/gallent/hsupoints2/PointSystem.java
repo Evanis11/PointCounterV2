@@ -10,6 +10,7 @@ import org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import sun.nio.ch.Net;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -667,7 +668,7 @@ public class PointSystem {
                 this.parentPath = "characters." + activeChar + ".points.magic.elemental.base";
                 this.pointPath = "characters." + activeChar + ".points.magic.elemental.water";
                 this.unlockPath = pointPath + ".unlocked";
-                viewG("Elemental", "Hydromancy");
+                viewG("Elemental", "Hydromancy", "#3f3ffe");
                 return;
             //earth
             case "earth":
@@ -675,7 +676,7 @@ public class PointSystem {
                 this.parentPath = "characters." + activeChar + ".points.magic.elemental.base";
                 this.pointPath = "characters." + activeChar + ".points.magic.elemental.earth";
                 this.unlockPath = pointPath + ".unlocked";
-                viewG("Elemental", "Geomancy");
+                viewG("Elemental", "Geomancy", "#8c2c00");
                 return;
             //fire
             case "fire":
@@ -683,7 +684,7 @@ public class PointSystem {
                 this.parentPath = "characters." + activeChar + ".points.magic.elemental.base";
                 this.pointPath = "characters." + activeChar + ".points.magic.elemental.fire";
                 this.unlockPath = pointPath + ".unlocked";
-                viewG("Elemental", "Pyromancy");
+                viewG("Elemental", "Pyromancy", "#FF760D");
                 return;
             //air
             case "air":
@@ -692,7 +693,7 @@ public class PointSystem {
                 this.parentPath = "characters." + activeChar + ".points.magic.elemental.base";
                 this.pointPath = "characters." + activeChar + ".points.magic.elemental.wind";
                 this.unlockPath = pointPath + ".unlocked";
-                viewG("Elemental", "Aeromancy");
+                viewG("Elemental", "Aeromancy", "#91FFCF");
                 return;
 
             //cosmic
@@ -702,7 +703,7 @@ public class PointSystem {
                 this.parentPath = "characters." + activeChar + ".points.magic.cosmic.base";
                 this.pointPath = "characters." + activeChar + ".points.magic.cosmic.astral";
                 this.unlockPath = pointPath + ".unlocked";
-                viewG("Cosmos", "Lunimancy");
+                viewG("Cosmos", "Lunimancy", "#b88bfc");
                 return;
             case "shadow":
             case "umbramancy":
@@ -710,7 +711,7 @@ public class PointSystem {
                 this.parentPath = "characters." + activeChar + ".points.magic.cosmic.base";
                 this.pointPath = "characters." + activeChar + ".points.magic.cosmic.shadow";
                 this.unlockPath = pointPath + ".unlocked";
-                viewG("Cosmos", "Umbramancy");
+                viewG("Cosmos", "Umbramancy", "#636363");
                 return;
 
             //nature
@@ -720,24 +721,24 @@ public class PointSystem {
                 this.parentPath = "characters." + activeChar + ".points.magic.nature.base";
                 this.pointPath = "characters." + activeChar + ".points.magic.nature.life";
                 this.unlockPath = pointPath + ".unlocked";
-                viewG("Nature", "Vivimancy");
+                viewG("Nature", "Vivimancy", "#f2fab6");
                 return;
 
             case "ecomancy":
             case "plants":
             case "animals":
                 this.parentPath = "characters." + activeChar + ".points.magic.nature.base";
-                this.pointPath = "characters." + activeChar + ".points.magic.nature.life";
+                this.pointPath = "characters." + activeChar + ".points.magic.nature.ecomancy";
                 this.unlockPath = pointPath + ".unlocked";
-                viewG("Nature", "Ecomancy");
+                viewG("Nature", "Ecomancy", "#2d9644");
                 return;
 
             case "death":
             case "necromancy":
                 this.parentPath = "characters." + activeChar + ".points.magic.nature.base";
-                this.pointPath = "characters." + activeChar + ".points.magic.nature.life";
+                this.pointPath = "characters." + activeChar + ".points.magic.nature.death";
                 this.unlockPath = pointPath + ".unlocked";
-                viewG("Nature", "Necromancy");
+                viewG("Nature", "Necromancy", "#8c3838");
                 return;
 
             //PHYSICAL
@@ -781,6 +782,10 @@ public class PointSystem {
                 player.sendMessage(ChatColor.GOLD + "You have " + sPointsUnspent + " unspent stat points");
                 return;
 
+            case "all":
+                viewAll();
+                return;
+
             case "general":
                 player.sendMessage(ChatColor.GOLD + "You have " + gPointsUnspent + " unspent general points");
                 return;
@@ -788,7 +793,7 @@ public class PointSystem {
 
     }
 
-    public void viewG(String parentSchool, String magicName) {
+    public void viewG(String parentSchool, String magicName, String hexcode) {
         if (plugin.getPData().getInt(parentPath) < 50) {
             player.sendMessage(ChatColor.RED + "You have not unlocked this magic. Must have 50 points in " + parentSchool + " magic.");
             return;
@@ -801,7 +806,7 @@ public class PointSystem {
         Double schoolPoints = plugin.getPData().getDouble(pointPath + ".points");
         Double parentPoints = plugin.getPData().getDouble(parentPath);
         Double pointAmt = Double.sum(parentPoints, schoolPoints);
-        player.sendMessage(ChatColor.GOLD + "You have " + pointAmt.intValue() + " (" + pointAmt + ") points in " + magicName + ".");
+        player.sendMessage(net.md_5.bungee.api.ChatColor.of(hexcode) + "You have " + pointAmt.intValue() + " (" + pointAmt + ") points in " + magicName + ".");
         if (plugin.getPData().getBoolean(pointPath + ".aversion")) {
             player.sendMessage(ChatColor.RED + "You have an aversion in this magic.");
         }
@@ -988,6 +993,99 @@ public class PointSystem {
         return;
     }
 
+    public void viewAll() {
+        this.activeChar = plugin.getPData().getString("ActiveCharacter");
+        //TIER 1
+        //Elemental
+        int pointAmt = 0;
+
+        pointAmt = plugin.getPData().getInt("characters." + activeChar + ".points.magic.elemental.base");
+        player.sendMessage(ChatColor.GOLD + "You have " + pointAmt + " points in Tier 1 Elemental magic.");
+
+        //Cosmos
+        pointAmt = plugin.getPData().getInt("characters." + activeChar + ".points.magic.cosmic.base");
+        player.sendMessage(net.md_5.bungee.api.ChatColor.of("#af7dbd") + "You have " + pointAmt + " points in Tier 1 Cosmos magic.");
+
+        //Nature
+        pointAmt = plugin.getPData().getInt("characters." + activeChar + ".points.magic.nature.base");
+        player.sendMessage(ChatColor.GREEN + "You have " + pointAmt + " points in Tier 1 Nature magic.");
+
+        //TIER 2
+        //
+        player.sendMessage("");
+        if (plugin.getPData().getDouble("characters." + activeChar + ".points.magic.elemental.base") >= 50.0) {
+            //Water
+            if (unlockCheck("elemental.water")) {
+                Double pointDouble = plugin.getPData().getDouble("characters." + activeChar + ".points.magic.elemental.water.points") + 50.0;
+                player.sendMessage(net.md_5.bungee.api.ChatColor.of("#3f3ffe") + "You have " + pointDouble.intValue() + " (" + pointDouble + ") points in Hydromancy");
+            }
+
+            //Earth
+            if (unlockCheck("elemental.earth")) {
+                Double pointDouble = plugin.getPData().getDouble("characters." + activeChar + ".points.magic.elemental.earth.points") + 50.0;
+                player.sendMessage(net.md_5.bungee.api.ChatColor.of("#8c2c00") + "You have " + pointDouble.intValue() + " (" + pointDouble + ") points in Geomancy");
+            }
+
+            //Fire
+            if (unlockCheck("elemental.fire")) {
+                Double pointDouble = plugin.getPData().getDouble("characters." + activeChar + ".points.magic.elemental.fire.points") + 50.0;
+                player.sendMessage(net.md_5.bungee.api.ChatColor.of("#FF760D") + "You have " + pointDouble.intValue() + " (" + pointDouble + ") points in Pyromancy");
+            }
+
+            //Wind
+            if (unlockCheck("elemental.wind")) {
+                Double pointDouble = plugin.getPData().getDouble("characters." + activeChar + ".points.magic.elemental.wind.points") + 50.0;
+                player.sendMessage(net.md_5.bungee.api.ChatColor.of("#91FFCF") + "You have " + pointDouble.intValue() + " (" + pointDouble + ") points in Aeromancy");
+            }
+        }
+        player.sendMessage("");
+        if (plugin.getPData().getDouble("characters." + activeChar + ".points.magic.cosmic.base") >= 50.0) {
+
+            //Lunimancy
+            if (unlockCheck("cosmic.astral")) {
+                Double pointDouble = plugin.getPData().getDouble("characters." + activeChar + ".points.magic.cosmic.astral.points") + 50.0;
+                player.sendMessage(net.md_5.bungee.api.ChatColor.of("#b88bfc") + "You have " + pointDouble.intValue() + " (" + pointDouble + ") points in Lunimancy");
+            }
+
+            //Umbramancy
+            if (unlockCheck("cosmic.shadow")) {
+                Double pointDouble = plugin.getPData().getDouble("characters." + activeChar + ".points.magic.cosmic.shadow.points") + 50.0;
+                player.sendMessage(net.md_5.bungee.api.ChatColor.of("#636363") + "You have " + pointDouble.intValue() + " (" + pointDouble + ") points in Umbramancy");
+            }
+        }
+        player.sendMessage("");
+        if (plugin.getPData().getDouble("characters." + activeChar + ".points.magic.nature.base") >= 50.0) {
+            if (unlockCheck("nature.life")) {
+                Double pointDouble = plugin.getPData().getDouble("characters." + activeChar + ".points.magic.nature.life.points") + 50.0;
+                player.sendMessage(net.md_5.bungee.api.ChatColor.of("#f2fab6") + "You have " + pointDouble.intValue() + " (" + pointDouble + ") points in Vivimancy");
+            }
+            if (unlockCheck("nature.ecomancy")) {
+                Double pointDouble = plugin.getPData().getDouble("characters." + activeChar + ".points.magic.nature.ecomancy.points") + 50.0;
+                player.sendMessage(net.md_5.bungee.api.ChatColor.of("#2d9644") + "You have " + pointDouble.intValue() + " (" + pointDouble + ") points in Ecomancy");
+            }
+            if (unlockCheck("nature.death")) {
+                Double pointDouble = plugin.getPData().getDouble("characters." + activeChar + ".points.magic.nature.death.points") + 50.0;
+                player.sendMessage(net.md_5.bungee.api.ChatColor.of("#8c3838") + "You have " + pointDouble.intValue() + " (" + pointDouble + ") points in Necromancy");
+            }
+
+
+        }
+
+        player.sendMessage("");
+        player.sendMessage(ChatColor.GOLD + "You have " + plugin.getPData().getDouble("characters." + activeChar + ".points.physical.health") + " points in Health");
+        player.sendMessage(ChatColor.GOLD + "You have " + plugin.getPData().getDouble("characters." + activeChar + ".points.physical.strength") + " points in Strength");
+        player.sendMessage(ChatColor.GOLD + "You have " + plugin.getPData().getDouble("characters." + activeChar + ".points.physical.agility") + " points in Agility");
+        player.sendMessage(ChatColor.GOLD + "You have " + plugin.getPData().getDouble("characters." + activeChar + ".points.physical.craftsmanship") + " points in Craftsmanship");
+        player.sendMessage("");
+        player.sendMessage(ChatColor.GOLD+"You have "+plugin.getPData().getDouble("characters."+activeChar+".points.unspent.physical")+" unspent stat points.");
+        player.sendMessage(ChatColor.GOLD+"You have "+plugin.getPData().getDouble("characters."+activeChar+".points.unspent.magic")+" unspent magic points.");
+        player.sendMessage(ChatColor.GOLD+"You have "+plugin.getPData().getDouble("characters."+activeChar+".points.unspent.general")+" unspent general points.");
+    }
+
+
+    public Boolean unlockCheck(String path) {
+        return plugin.getPData().getBoolean("characters." + plugin.getPData().getString("ActiveCharacter") + ".points.magic." + path + ".unlocked");
+    }
 
     public void unlock() {
         this.player = plugin.player;

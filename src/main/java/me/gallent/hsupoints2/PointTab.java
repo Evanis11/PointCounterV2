@@ -98,7 +98,7 @@ public class PointTab implements TabCompleter, Listener {
                 if(args.length==3) {
                     List<String> pointTypes = new ArrayList<String>();
                     pointTypes.add("Elemental");
-                    pointTypes.add("Cosmic");
+                    pointTypes.add("Cosmos");
                     pointTypes.add("Nature");
                     pointTypes.add("Pyromancy");
                     pointTypes.add("Geomancy");
@@ -116,6 +116,7 @@ public class PointTab implements TabCompleter, Listener {
                     pointTypes.add("Magic");
                     pointTypes.add("Physical");
                     pointTypes.add("General");
+                    pointTypes.add("All");
 
                     List<String> narrow=new ArrayList<String>();
                     for (String a : pointTypes) {
@@ -145,7 +146,7 @@ public class PointTab implements TabCompleter, Listener {
                 if(args.length==4) {
                     List<String> pointTypes = new ArrayList<String>();
                     pointTypes.add("Elemental");
-                    pointTypes.add("Cosmic");
+                    pointTypes.add("Cosmos");
                     pointTypes.add("Nature");
                     pointTypes.add("Pyromancy");
                     pointTypes.add("Geomancy");
